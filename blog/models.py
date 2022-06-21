@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 from autoslug import AutoSlugField
@@ -13,7 +15,7 @@ class Post(models.Model):
     ]
 
     title = models.CharField(max_length=255)
-    slug = AutoSlugField(populate_from="title")
+    slug = AutoSlugField(populate_from="title", unique=True)
     status = models.CharField(
         max_length=20, choices=STATUS_CHOICES, default="draft"
     )
@@ -33,6 +35,11 @@ class Post(models.Model):
             excerpt = self.body[:character_limit]+"..."
 
         return excerpt
+
+    def publish(self):
+        self.published_date = datetime.now()
+        self.status = "published"
+        self.save()
 
     def __str__(self):
         return self.title
