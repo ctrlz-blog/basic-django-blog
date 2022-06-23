@@ -2,18 +2,19 @@
 
 {% block content %}
 <h1>Posts</h1>
+<a type="button" class="btn btn-primary" href="{% url 'add_post' %}">New</a>
 
 <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
 
     {% for post in posts %}
 
-    <div class="card col-4 m-2" style="width: 18rem;">
+    <a href="{% url 'post_detail' post.slug %}" class="card col-4 m-2" style="width: 18rem;">
         <img src="https://tinyurl.com/22jvzvfj" class="card-img-top" alt={{post.title}}>
         <div class="card-body">
             <h5 class="card-title">{{post.title}}</h5>
             <p class="card-text text-muted">{{post.excerpt}}</p>
         </div>
-    </div>
+    </a>
 
     {% endfor %}
 </div>

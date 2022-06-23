@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>{{post.title}}</h1>
+{% if post.published_date %}
+<small>Published {{post.published_date}}</small>
+{% endif %}
+
+<p>{{post.body}}</p>
+
+{% if post.status == 'draft' %}
+<a type="button" class="btn btn-primary" href="{% url 'publish' post.slug %}">Publish</a>
+{% else %}
+<a type="button" class="btn btn-primary" href="{% url 'edit' post.slug %}">Edit</a>
+
+{% endif %}
+
+{% endblock %}

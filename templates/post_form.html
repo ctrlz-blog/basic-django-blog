@@ -2,8 +2,14 @@
 
 {% block content %}
 
+{% if edit_mode %}
+<h1>Edit Post</h1>
+<a type="button" class="btn btn-primary" href="{% url 'delete' post.slug %}">Delete</a>
+{% else %}
+<h1>Add Post</h1>
+{% endif %}
+
 <div class="container">
-    <h3>New Post</h3>
     <form method="post">
         {% csrf_token %}
         {{ form }}

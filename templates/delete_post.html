@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Are you sure?</h2>
+<form method="post">
+    {% csrf_token %}
+    <input class="btn btn-danger" type="submit" value="Delete">
+    <a type="button" class="btn" href="{% url 'index' %}">Go back</a>
+</form>
+
+
+{% endblock %}
