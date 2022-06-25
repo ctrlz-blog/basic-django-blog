@@ -1,11 +1,8 @@
-import re
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
 from blog.models import Post
 from blog.forms import PostForm
-
-# Create your views here.
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -17,7 +14,7 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "index.html", context)
 
 
-def add_post(request):
+def add_post(request: HttpRequest) -> HttpResponse:
 
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -36,7 +33,7 @@ def add_post(request):
     return render(request, "post_form.html", context)
 
 
-def post_detail(request, slug: str):
+def post_detail(request: HttpRequest, slug: str) -> HttpResponse:
 
     post = get_object_or_404(Post, slug=slug)
 
@@ -44,7 +41,7 @@ def post_detail(request, slug: str):
     return render(request, "post_detail.html", context)
 
 
-def publish(request, slug):
+def publish(request: HttpRequest, slug: str) -> HttpResponse:
 
     post = get_object_or_404(Post, slug=slug)
     post.publish()
@@ -52,7 +49,7 @@ def publish(request, slug):
     return redirect("index")
 
 
-def edit_post(request, slug):
+def edit_post(request: HttpRequest, slug: str) -> HttpResponse:
 
     post = get_object_or_404(Post, slug=slug)
 
@@ -68,7 +65,7 @@ def edit_post(request, slug):
     return render(request, "post_form.html", context)
 
 
-def delete_post(request, slug):
+def delete_post(request: HttpRequest, slug: str) -> HttpResponse:
 
     post = get_object_or_404(Post, slug=slug)
 
