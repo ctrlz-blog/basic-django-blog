@@ -4,8 +4,6 @@ from django.db import models
 
 from autoslug import AutoSlugField
 
-# Create your models here.
-
 
 class Post(models.Model):
 
@@ -16,9 +14,7 @@ class Post(models.Model):
 
     title = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from="title", unique=True)
-    status = models.CharField(
-        max_length=20, choices=STATUS_CHOICES, default="draft"
-    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="draft")
 
     body = models.TextField()
 
@@ -32,9 +28,13 @@ class Post(models.Model):
         if len(self.body) < character_limit:
             excerpt = self.body
         else:
-            excerpt = self.body[:character_limit]+"..."
+            excerpt = self.body[:character_limit] + "..."
 
         return excerpt
+
+    def save(self):
+        self.updated_date = datetime.now()
+        super().save()
 
     def publish(self):
         self.published_date = datetime.now()
