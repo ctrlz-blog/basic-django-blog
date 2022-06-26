@@ -9,4 +9,5 @@ urlpatterns = [
     path("<slug:slug>/publish", views.publish, name="publish"),
     path("<slug:slug>/edit", views.edit_post, name="edit"),
     path("<slug:slug>/delete", views.delete_post, name="delete"),
+    path("tags/<int:tag_id>", views.list_posts_by_tag, name="tag")
 ]

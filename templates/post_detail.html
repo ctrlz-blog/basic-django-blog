@@ -3,6 +3,13 @@
 {% block content %}
 
 <h1>{{post.title}}</h1>
+
+<div>
+    {% for tag in post.tags.all %}
+    <a href="{% url 'tag' tag.id %}" class="badge text-decoration-none bg-secondary">{{tag}}</a>
+    {% endfor %}
+</div>
+
 {% if post.published_date %}
 <small>Published {{post.published_date}}</small>
 {% endif %}

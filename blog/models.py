@@ -4,6 +4,11 @@ from django.db import models
 
 from autoslug import AutoSlugField
 
+class Tag(models.Model):
+    name=models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
 
 class Post(models.Model):
 
@@ -21,6 +26,8 @@ class Post(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     published_date = models.DateTimeField(blank=True, null=True)
     updated_date = models.DateTimeField(blank=True, null=True)
+
+    tags = models.ManyToManyField(to=Tag, related_name="posts", blank=True)
 
     @property
     def excerpt(self):
@@ -43,3 +50,4 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
