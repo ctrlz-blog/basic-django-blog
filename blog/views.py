@@ -56,7 +56,7 @@ def edit_post(request: HttpRequest, slug: str) -> HttpResponse:
     form = PostForm(instance=post)
 
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save()
             return redirect("post_detail", slug=post.slug)
