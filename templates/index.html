@@ -3,9 +3,11 @@
 {% block content %}
 
 {% if tag_name %}
-    <h1>Tag: {{tag_name}}</h1>
+<h1>Tag: {{tag_name}}</h1>
+{% elif category_name %}
+<h1>Category: {{category_name}}</h1>
 {% else %}
-    <h1>All Posts</h1>
+<h1>All Posts</h1>
 {% endif %}
 
 <a type="button" class="btn btn-primary" href="{% url 'add_post' %}">New</a>
@@ -15,22 +17,22 @@
 
     {% if posts %}
 
-        {% for post in posts %}
+    {% for post in posts %}
 
-        <a href="{% url 'post_detail' post.slug %}" class="card col-4 m-2" style="width: 18rem;">
-            <img src="https://tinyurl.com/22jvzvfj" class="card-img-top" alt={{post.title}}>
-            <div class="card-body">
-                <h5 class="card-title">{{post.title}}</h5>
-                <p class="card-text text-muted">{{post.excerpt}}</p>
-            </div>
-        </a>
+    <a href="{% url 'post_detail' post.slug %}" class="card col-4 m-2" style="width: 18rem;">
+        <img src="https://tinyurl.com/22jvzvfj" class="card-img-top" alt={{post.title}}>
+        <div class="card-body">
+            <h5 class="card-title">{{post.title}}</h5>
+            <p class="card-text text-muted">{{post.excerpt}}</p>
+        </div>
+    </a>
 
-        {% endfor %}
+    {% endfor %}
 
     {% else %}
 
-        <p>No posts to display!</p>
-    
+    <p>No posts to display!</p>
+
     {% endif %}
 
 </div>
