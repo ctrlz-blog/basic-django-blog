@@ -2,6 +2,11 @@
 
 {% block content %}
 
+{% if post.category %}
+<a href="{% url 'category' post.category.slug %}" class="text-decoration-none">
+    <h4 class="text-muted">{{post.category}}</h4>
+</a>
+{% endif %}
 <h1>{{post.title}}</h1>
 
 <div>

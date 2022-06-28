@@ -1,7 +1,7 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
-from blog.models import Post, Tag
+from blog.models import Post, Tag, Category
 from blog.forms import PostForm
 
 
@@ -77,15 +77,23 @@ def delete_post(request: HttpRequest, slug: str) -> HttpResponse:
 
     return render(request, "delete_post.html", context)
 
+
 def list_posts_by_tag(request: HttpRequest, tag_id: int) -> HttpResponse:
 
     tag = get_object_or_404(Tag, id=tag_id)
 
     posts = Post.objects.filter(status="published", tags=tag)
 
-    context = {
-        "tag_name": tag.name,
-        "posts": posts
-    }
+    context = {"tag_name": tag.name, "posts": posts}
+
+    return render(request, "index.html", context)
+
+
+def list_posts_by_category(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+
+    posts = Post.objects.filter(category=category)
+
+    context = {"category_name": category.name, "posts": posts}
 
     return render(request, "index.html", context)

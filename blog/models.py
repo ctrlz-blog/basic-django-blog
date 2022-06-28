@@ -4,11 +4,24 @@ from django.db import models
 
 from autoslug import AutoSlugField
 
+
 class Tag(models.Model):
-    name=models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
         return self.name
+
+
+class Category(models.Model):
+    class Meta:
+        verbose_name_plural = "categories"
+
+    name = models.CharField(max_length=100, unique=True)
+    slug = AutoSlugField(populate_from="name", unique=True)
+
+    def __str__(self):
+        return self.name
+
 
 class Post(models.Model):
 
@@ -26,6 +39,14 @@ class Post(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     published_date = models.DateTimeField(blank=True, null=True)
     updated_date = models.DateTimeField(blank=True, null=True)
+
+    category = models.ForeignKey(
+        to=Category,
+        related_name="posts",
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
 
     tags = models.ManyToManyField(to=Tag, related_name="posts", blank=True)
 
@@ -50,4 +71,3 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
-
