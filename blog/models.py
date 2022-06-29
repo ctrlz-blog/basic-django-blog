@@ -23,8 +23,14 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    @staticmethod
+    def get_category_id_by_name(name: str) -> int:
+        category = Category.objects.get(name=name)
+        return category.id
+
 
 class Post(models.Model):
+    DEFAULT_CATEGORY = "Uncategorised"
 
     STATUS_CHOICES = [
         ("draft", "Draft"),
@@ -45,9 +51,10 @@ class Post(models.Model):
     category = models.ForeignKey(
         to=Category,
         related_name="posts",
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
+        default=Category.get_category_id_by_name(DEFAULT_CATEGORY),
+        on_delete=models.SET_DEFAULT,
+        blank=False,
+        null=False,
     )
 
     @property
