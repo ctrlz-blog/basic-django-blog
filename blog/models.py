@@ -6,6 +6,11 @@ from django.db import models
 from autoslug import AutoSlugField
 
 
+def get_category_id():
+    category, _ = Category.objects.get_or_create(name=Post.DEFAULT_CATEGORY)
+    return category.id
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
@@ -22,11 +27,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
-    @staticmethod
-    def get_category_id_by_name(name: str) -> int:
-        category, _ = Category.objects.get_or_create(name=name)
-        return category.id
 
 
 class Post(models.Model):
@@ -51,7 +51,7 @@ class Post(models.Model):
     category = models.ForeignKey(
         to=Category,
         related_name="posts",
-        default=Category.get_category_id_by_name(DEFAULT_CATEGORY),
+        default=models.SET(get_category_id),
         on_delete=models.SET_DEFAULT,
         blank=False,
         null=False,
