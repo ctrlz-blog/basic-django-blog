@@ -7,7 +7,7 @@ from autoslug import AutoSlugField
 
 
 def get_category_id():
-    category, _ = Category.objects.get_or_create(name=Post.DEFAULT_CATEGORY)
+    category, _ = Category.objects.get_or_create(name=Category.DEFAULT_NAME)
     return category.id
 
 
@@ -19,6 +19,8 @@ class Tag(models.Model):
 
 
 class Category(models.Model):
+
+    DEFAULT_NAME = "Uncategorised"
     class Meta:
         verbose_name_plural = "categories"
 
@@ -30,7 +32,6 @@ class Category(models.Model):
 
 
 class Post(models.Model):
-    DEFAULT_CATEGORY = "Uncategorised"
 
     STATUS_CHOICES = [
         ("draft", "Draft"),
