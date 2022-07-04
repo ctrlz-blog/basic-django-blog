@@ -5,26 +5,42 @@ from django.db import migrations
 DEFAULT_CATEGORY = "Uncategorised"
 
 
-def add_default_category(apps, _):
+def forwards(apps, _):
+    """
+    Adds a category to use as the default.
+
+    Iterates through existing posts. Assigns the default to posts without a category.
+    """
     category_model = apps.get_model(app_label="blog", model_name="Category")
 
-    category_model.objects.get_or_create(name=DEFAULT_CATEGORY)
+    category, _ = category_model.objects.get_or_create(name=DEFAULT_CATEGORY)
+    
+    post_model = apps.get_model(app_label="blog", model_name="Post")
 
+    posts = post_model.objects.all()
 
-def remove_default_category(apps, _):
+    for post in posts:
+        if not post.category:
+            post.category = category
+            post.save()
 
+def backwards(apps, _):
+    """
+    Removes the default category.
+
+    The on_delete rule will be used for any posts that used the default category (models.SET_NULL in this case)
+    """
     category_model = apps.get_model(app_label="blog", model_name="Category")
 
     category = category_model.objects.filter(name=DEFAULT_CATEGORY).first()
 
     if category:
         category.delete()
-
-
+    
 class Migration(migrations.Migration):
 
     dependencies = [
         ("blog", "0006_category_post_category"),
     ]
 
-    operations = [migrations.RunPython(add_default_category, remove_default_category)]
+    operations = [migrations.RunPython(forwards, backwards)]

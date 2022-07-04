@@ -25,7 +25,7 @@ class Category(models.Model):
 
     @staticmethod
     def get_category_id_by_name(name: str) -> int:
-        category = Category.objects.get(name=name)
+        category, _ = Category.objects.get_or_create(name=name)
         return category.id
 
 
