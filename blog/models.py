@@ -21,6 +21,7 @@ class Tag(models.Model):
 class Category(models.Model):
 
     DEFAULT_NAME = "Uncategorised"
+
     class Meta:
         verbose_name_plural = "categories"
 
@@ -52,7 +53,7 @@ class Post(models.Model):
     category = models.ForeignKey(
         to=Category,
         related_name="posts",
-        default=models.SET(get_category_id),
+        default=get_category_id,
         on_delete=models.SET_DEFAULT,
         blank=False,
         null=False,
@@ -68,9 +69,9 @@ class Post(models.Model):
 
         return excerpt
 
-    def save(self):
+    def save(self, **kwargs):
         self.updated_date = datetime.now()
-        super().save()
+        super().save(**kwargs)
 
     def publish(self):
         self.published_date = datetime.now()

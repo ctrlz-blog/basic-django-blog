@@ -2,15 +2,15 @@ from datetime import date, datetime
 from django.test import TestCase
 
 from blog.models import Post
+
 # Create your tests here.
 
 
 class TestPost(TestCase):
-
     def setUp(self):
         self.post = Post.objects.create(
             title="abc",
-            body="This is the beginning of the blog post, which is going to be more than 150 characters long. This is so we can test that our excerpt property correctly truncates the body to create an"
+            body="This is the beginning of the blog post, which is going to be more than 150 characters long. This is so we can test that our excerpt property correctly truncates the body to create an",
         )
 
     def test_str(self):
@@ -46,7 +46,7 @@ class TestPost(TestCase):
         self.assertNotEqual(self.post.slug, post2.slug)
 
     def test_post_draft_by_default(self):
-        """ Test post is automatically given a status of 'draft'"""
+        """Test post is automatically given a status of 'draft'"""
 
         self.assertEqual(self.post.status, "draft")
 
@@ -63,3 +63,7 @@ class TestPost(TestCase):
 
         self.assertEqual(self.post.status, "published")
         self.assertTrue(self.post.published_date)
+
+    def test_category(self):
+        category = self.post.category
+        self.assertEqual(category.name, "Uncategorised")
