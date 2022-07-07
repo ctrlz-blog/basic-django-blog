@@ -17,7 +17,7 @@ def index(request: HttpRequest) -> HttpResponse:
 def add_post(request: HttpRequest) -> HttpResponse:
 
     if request.method == "POST":
-        form = PostForm(request.POST)
+        form = PostForm(data=request.POST, files=request.FILES)
 
         if form.is_valid():
             # form.save() creates a post from the form
@@ -56,7 +56,7 @@ def edit_post(request: HttpRequest, slug: str) -> HttpResponse:
     form = PostForm(instance=post)
 
     if request.method == "POST":
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(data=request.POST, files=request.FILES, instance=post)
         if form.is_valid():
             post = form.save()
             return redirect("post_detail", slug=post.slug)

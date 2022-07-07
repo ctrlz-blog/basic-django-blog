@@ -1,5 +1,4 @@
 from datetime import datetime
-from unicodedata import name
 
 from django.db import models
 
@@ -58,6 +57,8 @@ class Post(models.Model):
         blank=False,
         null=False,
     )
+
+    feature_image = models.ImageField(upload_to="uploads/", null=True, blank=True)
 
     @property
     def excerpt(self):

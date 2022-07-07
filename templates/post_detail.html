@@ -2,7 +2,7 @@
 
 {% block content %}
 
-{% if post.category %}
+{% if post.category and post.category.name != "Uncategorised" %}
 <a href="{% url 'category' post.category.slug %}" class="text-decoration-none">
     <h4 class="text-muted">{{post.category}}</h4>
 </a>
@@ -10,15 +10,19 @@
 
 <h1>{{post.title}}</h1>
 
+{% if post.published_date %}
+<small>Published {{post.published_date}}</small>
+{% endif %}
+
+{% if post.feature_image %}
+<img class="img-fluid" src="{{post.feature_image.url}}" alt="{{post.title}}">
+{% endif %}
+
 <div>
     {% for tag in post.tags.all %}
     <a href="{% url 'tag' tag.id %}" class="badge text-decoration-none bg-secondary">{{tag}}</a>
     {% endfor %}
 </div>
-
-{% if post.published_date %}
-<small>Published {{post.published_date}}</small>
-{% endif %}
 
 <p>{{post.body}}</p>
 
