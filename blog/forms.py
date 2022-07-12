@@ -1,5 +1,7 @@
 from django import forms
-from . import models
+from . import models, utils
+
+from PIL import Image
 
 
 class PostForm(forms.ModelForm):

@@ -3,6 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from blog.models import Post, Tag, Category
 from blog.forms import PostForm
+from . import utils, constants
+
+from PIL import Image
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -21,7 +24,15 @@ def add_post(request: HttpRequest) -> HttpResponse:
 
         if form.is_valid():
             # form.save() creates a post from the form
-            post = form.save()
+            post: Post = form.save(commit=False)
+
+            if post.feature_image:
+                img: Image = utils.resize_image(
+                    post.feature_image, constants.ImageWidth.LARGE
+                )
+                img.save(post.feature_image.path)
+
+            post.save()
 
             return redirect("post_detail", slug=post.slug)
 
@@ -58,7 +69,16 @@ def edit_post(request: HttpRequest, slug: str) -> HttpResponse:
     if request.method == "POST":
         form = PostForm(data=request.POST, files=request.FILES, instance=post)
         if form.is_valid():
-            post = form.save()
+            post = form.save(commit=False)
+
+            if post.feature_image:
+                img: Image = utils.resize_image(
+                    post.feature_image, constants.ImageWidth.LARGE
+                )
+                img.save(post.feature_image.path)
+
+            post.save()
+
             return redirect("post_detail", slug=post.slug)
 
     context = {"form": form, "post": post, "edit_mode": True}
