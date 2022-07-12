@@ -4,6 +4,8 @@ from django.db import models
 
 from autoslug import AutoSlugField
 
+from PIL import Image
+
 
 def get_category_id():
     category, _ = Category.objects.get_or_create(name=Category.DEFAULT_NAME)
