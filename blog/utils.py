@@ -24,7 +24,7 @@ def resize_image(original_image: ImageFieldFile, width: int) -> Image:
 
     image = Image.open(original_image)
 
-    new_size = get_new_image_dimensions(image.size, 1100)
+    new_size = get_new_image_dimensions(image.size, width)
 
     if new_size == image.size:
         return
