@@ -8,11 +8,21 @@ asgiref==3.5.2
     # via django
 backports-zoneinfo==0.2.1
     # via django
+bleach==5.0.1
+    # via django-summernote
 django==4.0.5
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   django-summernote
 django-autoslug==1.9.8
+    # via -r requirements.in
+django-summernote==0.8.20.0
     # via -r requirements.in
 pillow==9.2.0
     # via -r requirements.in
+six==1.16.0
+    # via bleach
 sqlparse==0.4.2
     # via django
+webencodings==0.5.1
+    # via bleach

@@ -24,7 +24,7 @@
     {% endfor %}
 </div>
 
-<p>{{post.body}}</p>
+<p>{{post.body | safe}}</p>
 
 {% if post.status == 'draft' %}
 <a type="button" class="btn btn-primary" href="{% url 'publish' post.slug %}">Publish</a>

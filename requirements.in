@@ -1,3 +1,4 @@
 django
 django-autoslug
 pillow
+django-summernote

@@ -2,10 +2,11 @@ from django.contrib import admin
 
 from blog import models
 
-# Register your models here.
+from django_summernote.admin import SummernoteModelAdmin
 
 
-class PostAdmin(admin.ModelAdmin):
+class PostAdmin(SummernoteModelAdmin):
+    summernote_fields = "__all__"
     list_display = ["title", "status"]
 
 
